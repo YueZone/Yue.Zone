@@ -1,4 +1,6 @@
-# Astro Starter Kit: Basics
+# YueZone Official Website
+
+## Astro Starter Kit: Basics
 
 ```sh
 pnpm create astro@latest -- --template basics

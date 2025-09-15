@@ -1,7 +1,11 @@
 {
   "name": "yue-zone",
+  "description": "YueZone Official Website",
+  "homepage": "https://yue.zone/",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
+  "author": "Yue-plus <Yue_plus@foxmail.com>",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,6 +16,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.13.6",
+    "nanostores": "^1.0.1",
     "tailwindcss": "^4.1.13"
   }
 }
