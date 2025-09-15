@@ -1,0 +1,23 @@
+---
+const logoHref = "/#index";
+---
+
+<a
+  id="logo"
+  target="_self"
+  href={logoHref}
+  class="w-[7rem] portrait:w-[10.25rem] text-6xl font-black font-oswaldMedium mr-auto ml-12 portrait:ml-7 cursor-pointer"
+  aria-label="Yue Zone"
+>
+  YueZone
+</a>
+
+<script>
+  import { navIndex } from "../../store";
+
+  document.addEventListener("astro:page-load", () => {
+    document.getElementById("logo")?.addEventListener("click", () => {
+      navIndex.set(0);
+    });
+  });
+</script>

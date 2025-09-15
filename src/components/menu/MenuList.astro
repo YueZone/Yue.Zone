@@ -1,0 +1,68 @@
+---
+import { navItems } from "../../store";
+
+let delay = -70;
+---
+
+<div id="menu-list" class="pt-[1.25rem] pr-[2.25rem] pb-0 pl-[3.375rem]">
+  {
+    navItems.get().map(({ title, subtitle, href }, index) => {
+      delay += 70;
+      return (
+        <a
+          target="_self"
+          href={href}
+          class="menu-list-item h-[7.5rem] border-b border-white/30 flex items-center justify-between transition ease-in-out duration-200"
+          aria-label={title + " - " + subtitle}
+          style={{
+            transitionDelay: delay + "ms",
+          }}
+        >
+          <div class="transition duration-300 text-4xl font-oswaldMedium">
+            {title}
+          </div>
+          <div class="h-full text-[1.75rem] relative flex items-center transition duration-300">
+            {subtitle}
+            <div class="w-full h-[.375rem] absolute right-0 bottom-[-.1875rem] bg-[currentColor]" />
+          </div>
+        </a>
+      );
+    })
+  }
+</div>
+
+<style>
+  #menu-list .menu-list-item {
+    opacity: 0;
+    transform: translateX(20%);
+  }
+
+  #menu-list.show .menu-list-item {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+</style>
+
+<script>
+  import { navIndex, showMenu } from "../../store";
+
+  document.addEventListener("astro:page-load", () => {
+    const menuItems = document.querySelectorAll("#menu-list .menu-list-item");
+
+    menuItems.forEach((item, index) => {
+      item.addEventListener("click", () => {
+        navIndex.set(index);
+        showMenu.set(false);
+      });
+    });
+
+    navIndex.subscribe((index) => {
+      menuItems.forEach((item) => item.classList.remove("text-ark-blue"));
+      menuItems[index].classList.add("text-ark-blue");
+    });
+
+    showMenu.subscribe((show) => {
+      document.getElementById("menu-list")?.classList.toggle("show", show);
+    });
+  });
+</script>

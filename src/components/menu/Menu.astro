@@ -1,0 +1,38 @@
+---
+import MenuList from "./MenuList.astro";
+import MenuToolBox from "./MenuToolBox.astro";
+
+// TODO: 子菜单
+---
+
+<div
+  id="header-nav-menu"
+  class="w-full h-full absolute top-0 left-0 z-[22] overflow-hidden bg-black/90 transition-[opacity,visibility] ease-in-out duration-[600ms]"
+>
+  <div class="w-full h-px absolute left-0 top-[9.375rem] bg-[#4f4f4f]" />
+  <div class="w-full h-full pt-[9.375rem] pr-[5.75rem] flex flex-col">
+    <MenuList />
+    <MenuToolBox />
+  </div>
+  <div class="w-px h-full absolute top-0 right-[5.75rem] bg-[#4f4f4f]" />
+</div>
+
+<style>
+  #header-nav-menu {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  #header-nav-menu.show {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
+
+<script>
+  import { showMenu } from "../../store";
+
+  showMenu.subscribe((show) => {
+    document.getElementById("header-nav-menu")?.classList.toggle("show", show);
+  });
+</script>

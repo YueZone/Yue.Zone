@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility writing-tb {
+  writing-mode: horizontal-tb;
+}
+
+@utility writing-rl {
+  writing-mode: vertical-rl;
+}
+
+@utility writing-lr {
+  writing-mode: vertical-lr;
+}
+
+@utility mask-unset {
+  mask: unset;
+}
+
+@utility mask-gradient-90-transparent-to-white {
+  mask: linear-gradient(90deg, transparent, white 20%);
+}

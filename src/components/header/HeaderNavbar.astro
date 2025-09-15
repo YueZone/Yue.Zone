@@ -1,0 +1,39 @@
+---
+import { navItems } from "../../store";
+---
+
+<nav id="header-navbar" class="portrait:hidden">
+  <ul class="flex justify-evenly">
+    {
+      navItems.get().map(({ title, subtitle, href }, index) => {
+        return (
+          <li class="inline-block text-center mx-10 duration-300 hover:text-ark-blue">
+            <a target="_self" {href} class="text-left">
+              <div class="font-oswaldMedium text-[1.375rem]">{title}</div>
+              <div class="text-[0.875rem]">{subtitle}</div>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<script>
+  import { navIndex } from "../../store";
+
+  document.addEventListener("astro:page-load", () => {
+    const navbarItems = document.querySelectorAll("#header-navbar li");
+
+    navbarItems.forEach((item, index) => {
+      item.addEventListener("click", () => {
+        navIndex.set(index);
+      });
+
+      navIndex.subscribe((index) => {
+        navbarItems.forEach((item) => item.classList.remove("text-ark-blue"));
+        navbarItems[index].classList.add("text-ark-blue");
+      });
+    });
+  });
+</script>

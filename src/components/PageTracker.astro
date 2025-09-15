@@ -1,0 +1,88 @@
+---
+import { navItems } from "../store";
+
+const microInfo = "YueZone";
+const tinyIndex =
+  "// 00 / " + navItems.get().length.toString().padStart(2, "0");
+---
+
+<div
+  class="w-[10rem] portrait:w-[4rem] absolute top-[44.4444444444%] portrait:top-[auto] right-[7.375rem] portrait:right-[2.875rem] portrait:bottom-[12.5rem] translate-x-1/2 z-[6] whitespace-nowrap leading-[normal] select-none"
+>
+  <div
+    id="nowIndex"
+    class="text-ark-blue text-[5.4rem] portrait:text-[3.6rem] portrait:text-center font-n15eDemiBold leading-[.55] overflow-hidden transition-[opacity,translate] duration-[240ms]"
+  >
+    00
+  </div>
+  <div
+    id="tinyIndex"
+    class="mt-[-1.55em] text-right text-[1.125rem] portrait:text-[1rem] portrait:text-center font-benderRegular portrait:writing-rl portrait:absolute portrait:right-0 bottom-0 transition-[opacity,translate] duration-[260ms]"
+  >
+    {tinyIndex}
+  </div>
+  <div
+    id="microInfo"
+    class="text-right text-[.375rem] font-n15eMedium tracking-[.5em] portrait:hidden transition-[opacity,translate] duration-[260ms]"
+  >
+    {microInfo}
+  </div>
+  <div
+    id="label"
+    class="text-right portrait:text-center text-[1.125rem] portrait:text-[.625rem] font-n15eDemiBold tracking-widest portrait:absolute portrait:right-[1.5rem] portrait:bottom-0 portrait:writing-rl transition-[opacity,translate] duration-[280ms]"
+  >
+    HOME PAGE
+  </div>
+</div>
+
+<script>
+  import { navIndex } from "../store";
+
+  // TODO: 将这些数据放到 store 中
+  const labels = ["HOMEPAGE", "INFORMATION", "MORE"];
+
+  document.addEventListener("astro:page-load", () => {
+    const nowIndex = document.getElementById("nowIndex")!;
+    const tinyIndex = document.getElementById("tinyIndex")!;
+    const microInfo = document.getElementById("microInfo")!;
+    const label = document.getElementById("label")!;
+
+    navIndex.subscribe((index, oldIndex) => {
+      if (typeof oldIndex === "undefined" || index === oldIndex) return;
+
+      const nowIndexString = index.toString().padStart(2, "0");
+      const translateY = index > oldIndex ? "-translate-y-8" : "translate-y-8";
+      const oppositeY = index > oldIndex ? "translate-y-8" : "-translate-y-8";
+
+      const replaceTranslateY = (el: HTMLElement) =>
+        el.classList.replace(translateY, oppositeY);
+
+      const reset = (el: HTMLElement) =>
+        el.classList.remove("translate-y-8", "-translate-y-8", "opacity-0");
+
+      // 隐藏元素
+      [nowIndex, tinyIndex, microInfo, label].forEach((el) => {
+        el.classList.add(translateY, "opacity-0");
+      });
+
+      // 修改元素
+      setTimeout(() => {
+        nowIndex.textContent = nowIndexString;
+        replaceTranslateY(nowIndex);
+      }, 240);
+      setTimeout(() => {
+        tinyIndex.textContent = `// ${nowIndexString} / ${String(labels.length - 1).padStart(2, "0")}`;
+        [tinyIndex, microInfo].forEach(replaceTranslateY);
+      }, 260);
+      setTimeout(() => {
+        label.textContent = labels[index];
+        replaceTranslateY(label);
+      }, 280);
+
+      // 显示元素
+      setTimeout(() => reset(nowIndex), 240 * 2);
+      setTimeout(() => [tinyIndex, microInfo].forEach(reset), 260 * 2);
+      setTimeout(() => reset(label), 280 * 2);
+    });
+  });
+</script>

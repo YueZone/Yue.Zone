@@ -1,26 +1,71 @@
 ---
-import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import ResponsiveFontSize from "../components/ResponsiveFontSize.astro";
+import Footer from "../components/footer/Footer.astro";
+import Header from "../components/header/Header.astro";
+import Menu from "../components/menu/Menu.astro";
+import "../styles/colors.css";
+import "../styles/fonts.css";
+import "../styles/scrollbar.css";
+import "../styles/utility.css";
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="zh" class="w-full h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>YueZone</title>
+    <ClientRouter />
+    <ResponsiveFontSize />
+  </head>
+  <body class="w-full h-full text-white bg-black m-0 overflow-hidden">
+    <div
+      id="layout"
+      class="w-full h-full relative bg-[url(/images/layout-bg.jpg)] bg-center bg-cover bg-no-repeat transform transition duration-500"
+    >
+      <div class="relative w-full h-full m-auto max-w-[180rem]">
+        <Header />
+        <slot />
+        <Menu />
+      </div>
+      <Footer />
+    </div>
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+<script>
+  import { showFooter } from "../store";
+
+  showFooter.subscribe((show) => {
+    const classList = document.getElementById("layout")?.classList;
+    if (show) classList?.add("-translate-y-1/4");
+    else classList?.remove("-translate-y-1/4");
+  });
+
+  document.addEventListener("wheel", (event) =>
+    showFooter.set(event.deltaY > 0),
+  );
+
+  let startPoint = 0;
+  let isTriggered = false;
+
+  document.addEventListener("touchstart", (event) => {
+    startPoint = event.touches[0].clientY;
+    isTriggered = false;
+  });
+
+  document.addEventListener("touchmove", (event) => {
+    const diffY = startPoint - event.touches[0].clientY;
+
+    if (Math.abs(diffY) > 160 && !isTriggered) {
+      showFooter.set(diffY > 0);
+      isTriggered = true;
+    }
+  });
+</script>

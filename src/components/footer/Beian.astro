@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+
+// TODO: Props 应该可选
+interface Props {
+  miit: string;
+  mps: string;
+  mpsCode: number | string;
+}
+
+const { miit, mps, mpsCode } = Astro.props;
+---
+
+<div>
+  {/* 工信部（ICP）备案号 */}
+  <a
+    target="_blank"
+    href="https://beian.miit.gov.cn/"
+    class="hover:text-[#ccc] hover:underline"
+  >
+    {miit}
+  </a>
+
+  &emsp;|&emsp;
+
+  {/* 公安备案号 */}
+  <a
+    target="_blank"
+    href=`https://beian.mps.gov.cn/#/query/webSearch?code=${mpsCode}`
+    class="hover:text-[#ccc] hover:underline"
+  >
+    <Image
+      width={16}
+      height={16}
+      class="w-[1.2em] inline-block"
+      src="/mps-beian-icon.png"
+      alt="公网安备图标"
+    />
+    {mps}
+  </a>
+</div>
