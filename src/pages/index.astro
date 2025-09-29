@@ -1,12 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
 import PageTracker from "../components/PageTracker.astro";
+import MainLayout from "../layouts/MainLayout.astro";
 ---
 
-<Layout>
+<MainLayout>
   <PageTracker />
   <main class="w-full h-full relative select-none"></main>
-</Layout>
+</MainLayout>
 
 <script>
   import { navIndex, navItems } from "../store";

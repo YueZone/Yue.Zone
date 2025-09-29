@@ -1,0 +1,51 @@
+---
+import Footer from "../components/footer/Footer.astro";
+import Header from "../components/header/Header.astro";
+import Menu from "../components/menu/Menu.astro";
+import BaseLayout from "./BaseLayout.astro";
+---
+
+<BaseLayout>
+  <main
+    id="main-layout"
+    class="w-full h-full relative bg-[url(/images/layout-bg.jpg)] bg-center bg-cover bg-no-repeat transform transition duration-500"
+  >
+    <div class="relative w-full h-full m-auto max-w-[180rem]">
+      <Header />
+      <slot />
+      <Menu />
+    </div>
+    <Footer />
+  </main>
+</BaseLayout>
+
+<script>
+  import { showFooter } from "../store";
+
+  showFooter.subscribe((show) => {
+    const classList = document.getElementById("main-layout")?.classList;
+    if (show) classList?.add("-translate-y-1/4");
+    else classList?.remove("-translate-y-1/4");
+  });
+
+  document.addEventListener("wheel", (event) =>
+    showFooter.set(event.deltaY > 0),
+  );
+
+  let startPoint = 0;
+  let isTriggered = false;
+
+  document.addEventListener("touchstart", (event) => {
+    startPoint = event.touches[0].clientY;
+    isTriggered = false;
+  });
+
+  document.addEventListener("touchmove", (event) => {
+    const diffY = startPoint - event.touches[0].clientY;
+
+    if (Math.abs(diffY) > 160 && !isTriggered) {
+      showFooter.set(diffY > 0);
+      isTriggered = true;
+    }
+  });
+</script>
