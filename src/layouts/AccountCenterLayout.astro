@@ -1,0 +1,16 @@
+---
+import Footer from "../components/footer/Footer.astro";
+import Header from "../components/header/Header.astro";
+import HeaderLogo from "../components/header/HeaderLogo.astro";
+import BaseLayout from "./BaseLayout.astro";
+---
+
+<BaseLayout>
+  <Header>
+    <HeaderLogo />
+  </Header>
+  <main class="w-full h-full bg-[#1b1b1b] pt-40 pb-28">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>

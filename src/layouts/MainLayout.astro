@@ -1,6 +1,9 @@
 ---
 import Footer from "../components/footer/Footer.astro";
 import Header from "../components/header/Header.astro";
+import HeaderLogo from "../components/header/HeaderLogo.astro";
+import HeaderMenuButton from "../components/header/HeaderMenuButton.astro";
+import HeaderNavbar from "../components/header/HeaderNavbar.astro";
 import Menu from "../components/menu/Menu.astro";
 import BaseLayout from "./BaseLayout.astro";
 ---
@@ -11,7 +14,16 @@ import BaseLayout from "./BaseLayout.astro";
     class="w-full h-full relative bg-[url(/images/layout-bg.jpg)] bg-center bg-cover bg-no-repeat transform transition duration-500"
   >
     <div class="relative w-full h-full m-auto max-w-[180rem]">
-      <Header />
+      <Header background>
+        <HeaderLogo />
+        <HeaderNavbar />
+        <div class="w-[14.75rem] h-full flex pl-[.75rem]">
+          <!-- <Social client:only="react"/>
+        <Sound client:only="react"/>
+        <OwnerInfo client:only="react"/> -->
+        </div>
+        <HeaderMenuButton />
+      </Header>
       <slot />
       <Menu />
     </div>
